@@ -15,6 +15,10 @@ module MassRename
     OptionParser.new do |parser|
       parser.banner = 'Usage: mass_rename [options]'
 
+      parser.on('-d', '--dir NAME', 'Rename files in a directory other than the current one') do |dir_name|
+        options[:directory] = dir_name || Dir.pwd
+      end
+
       parser.on('-f', '--filter PATTERN', 'Filter files using a regular expression') do |regex|
         options[:filter_regex] = Regexp.new(regex)
       end

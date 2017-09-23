@@ -11,6 +11,7 @@ RSpec.describe MassRename do
     let(:usage) do
       <<~USAGE
         Usage: mass_rename [options]
+            -d, --dir NAME                   Rename files in a directory other than the current one
             -f, --filter PATTERN             Filter files using a regular expression
             -v, --version                    Display version
             -h, --help                       Print this help
@@ -34,6 +35,20 @@ RSpec.describe MassRename do
         context "#{arg} with value" do
           subject { MassRename.process_options([arg, '\w+[0-9]+']) }
           it('returns options hash with filter') { is_expected.to eq(filter_regex: /\w+[0-9]+/) }
+        end
+
+        context "#{arg} without value" do
+          subject { -> { MassRename.process_options([arg]) } }
+          it('raises an error') { is_expected.to raise_error(OptionParser::MissingArgument) }
+        end
+      end
+    end
+
+    describe 'parses -d, --dir' do
+      %w[-d --dir].each do |arg|
+        context "#{arg} with value" do
+          subject { MassRename.process_options([arg, 'some_dir']) }
+          it('returns options hash with directory') { is_expected.to eq(directory: 'some_dir') }
         end
 
         context "#{arg} without value" do
