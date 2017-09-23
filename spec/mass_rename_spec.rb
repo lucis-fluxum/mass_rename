@@ -45,6 +45,20 @@ RSpec.describe MassRename do
       end
     end
 
+    describe 'parses -r, --replace' do
+      %w[-r --replace].each do |arg|
+        context "#{arg} with value" do
+          subject { MassRename.process_options([arg, 'something \1 \2']) }
+          it('returns options hash with filter') { is_expected.to eq(replacement: 'something \1 \2') }
+        end
+
+        context "#{arg} without value" do
+          subject { -> { MassRename.process_options([arg]) } }
+          it('raises an error') { is_expected.to raise_error(OptionParser::MissingArgument) }
+        end
+      end
+    end
+
     describe 'parses -d, --dir' do
       %w[-d --dir].each do |arg|
         context "#{arg} with value" do
