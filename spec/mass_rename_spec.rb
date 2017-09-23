@@ -14,20 +14,23 @@ RSpec.describe MassRename do
             -d, --dir NAME                   Rename files in a directory other than the current one
             -f, --filter PATTERN             Filter files using a regular expression
             -r, --replace PATTERN            Rename files matched using --filter with a replacement string
+                --recursive                  Rename files in both the target directory and its subdirectories
             -v, --version                    Display version
             -h, --help                       Print this help
       USAGE
     end
 
-    it 'parses -h, --help' do
-      %w[-h --help].each do |arg|
-        expect { MassRename.process_options([arg]) }.to output(usage).to_stdout
-      end
-    end
+    describe 'parses -d, --dir' do
+      %w[-d --dir].each do |arg|
+        context "#{arg} with value" do
+          subject { MassRename.process_options([arg, 'some_dir']) }
+          it('returns options hash with directory') { is_expected.to eq(directory: 'some_dir') }
+        end
 
-    it 'parses -v, --version' do
-      %w[-v --version].each do |arg|
-        expect { MassRename.process_options([arg]) }.to output("#{MassRename::VERSION}\n").to_stdout
+        context "#{arg} without value" do
+          subject { -> { MassRename.process_options([arg]) } }
+          it('raises an error') { is_expected.to raise_error(OptionParser::MissingArgument) }
+        end
       end
     end
 
@@ -59,17 +62,15 @@ RSpec.describe MassRename do
       end
     end
 
-    describe 'parses -d, --dir' do
-      %w[-d --dir].each do |arg|
-        context "#{arg} with value" do
-          subject { MassRename.process_options([arg, 'some_dir']) }
-          it('returns options hash with directory') { is_expected.to eq(directory: 'some_dir') }
-        end
+    it 'parses -v, --version' do
+      %w[-v --version].each do |arg|
+        expect { MassRename.process_options([arg]) }.to output("#{MassRename::VERSION}\n").to_stdout
+      end
+    end
 
-        context "#{arg} without value" do
-          subject { -> { MassRename.process_options([arg]) } }
-          it('raises an error') { is_expected.to raise_error(OptionParser::MissingArgument) }
-        end
+    it 'parses -h, --help' do
+      %w[-h --help].each do |arg|
+        expect { MassRename.process_options([arg]) }.to output(usage).to_stdout
       end
     end
   end
@@ -113,7 +114,31 @@ RSpec.describe MassRename do
       end
     end
 
-    after(:all) do
+    after(:each) do
+      reset_fixtures
+    end
+  end
+
+  describe '.run' do
+    let(:files) { Array.new(10) { |n| "file ##{n} renamed.txt" } }
+    let(:nested_files) { Array.new(5) { |n| "some_dir/file ##{n} renamed.txt" } }
+
+    subject { MassRename.file_list(recursive: false, filter: /file #\d renamed\.txt/) }
+    let(:options) { ['-d', 'spec/fixtures', '-f', 'example (.*) (\d)', '-r', '\1 #\2 renamed'] }
+    it 'renames multiple files (non-recursive)' do
+      MassRename.run(options)
+      is_expected.to eq(files)
+    end
+
+    subject { MassRename.file_list(recursive: true, filter: /file #\d renamed\.txt/).sort }
+    let(:options_recursive) { ['-d', 'spec/fixtures', '-f', 'example (.*) (\d)', '-r', '\1 #\2 renamed', '--recursive'] }
+    it 'renames multiple files (recursive)' do
+      MassRename.run(options_recursive)
+      is_expected.to eq((files + nested_files).sort)
+    end
+
+    after(:each) do
+      Dir.chdir('../../')
       reset_fixtures
     end
   end

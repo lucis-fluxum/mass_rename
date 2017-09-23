@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'mass_rename'
+
+MassRename.run(ARGV)

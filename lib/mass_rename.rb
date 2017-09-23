@@ -17,7 +17,7 @@ module MassRename
       parser.banner = 'Usage: mass_rename [options]'
 
       parser.on('-d', '--dir NAME', 'Rename files in a directory other than the current one') do |dir_name|
-        options[:directory] = dir_name || Dir.pwd
+        options[:directory] = dir_name
       end
 
       parser.on('-f', '--filter PATTERN', 'Filter files using a regular expression') do |regex|
@@ -26,6 +26,10 @@ module MassRename
 
       parser.on('-r', '--replace PATTERN', 'Rename files matched using --filter with a replacement string') do |replacement|
         options[:replacement] = replacement
+      end
+
+      parser.on('--recursive', 'Rename files in both the target directory and its subdirectories') do |recursive|
+        options[:recursive] = recursive
       end
 
       parser.on('-v', '--version', 'Display version') do
@@ -59,5 +63,15 @@ module MassRename
   def self.rename(path, options)
     new_path = path.gsub(options[:filter], options[:replacement])
     FileUtils.mv(path, new_path)
+  end
+
+  # Main entry point for this library. Processes the given options and then renames files
+  # matching the filter according to the given replacement string.
+  def self.run(args)
+    options = MassRename.process_options(args)
+    Dir.chdir(options[:directory]) if options[:directory]
+    MassRename.file_list(options).each do |path|
+      MassRename.rename(path, options)
+    end
   end
 end
