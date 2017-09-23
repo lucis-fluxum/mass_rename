@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'optparse'
+require 'fileutils'
 
 require 'mass_rename/version'
 
@@ -20,7 +21,11 @@ module MassRename
       end
 
       parser.on('-f', '--filter PATTERN', 'Filter files using a regular expression') do |regex|
-        options[:filter_regex] = Regexp.new(regex)
+        options[:filter] = Regexp.new(regex)
+      end
+
+      parser.on('-r', '--replace PATTERN', 'Rename files matched using --filter with a replacement string') do |replacement|
+        options[:replacement] = replacement
       end
 
       parser.on('-v', '--version', 'Display version') do
@@ -42,7 +47,17 @@ module MassRename
   # @return [Array<String>] the files matching the filter
   def self.file_list(options)
     Dir.glob(options[:recursive] ? '**/*' : '*').select do |path|
-      path =~ options[:filter_regex]
+      path =~ options[:filter]
     end
+  end
+
+  # Renames a file according to a pattern. The format of the replacement pattern is what you'd
+  # pass to {String#gsub}.
+  #
+  # @param path [String] the path of the file to rename
+  # @param options [Hash] the options returned by {MassRename#process_options}
+  def self.rename(path, options)
+    new_path = path.gsub(options[:filter], options[:replacement])
+    FileUtils.mv(path, new_path)
   end
 end

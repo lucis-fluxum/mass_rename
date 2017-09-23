@@ -22,3 +22,10 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+def reset_fixtures
+  FileUtils.rm_r(Dir.glob('spec/fixtures/*'))
+  10.times { |n| FileUtils.touch "spec/fixtures/example file #{n}.txt" }
+  Dir.mkdir('spec/fixtures/some_dir')
+  5.times { |n| FileUtils.touch "spec/fixtures/some_dir/example file #{n}.txt" }
+end
