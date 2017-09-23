@@ -11,10 +11,10 @@ RSpec.describe MassRename do
     let(:usage) do
       <<~USAGE
         Usage: mass_rename [options]
-            -d, --dir NAME                   Rename files in a directory other than the current one
+            -d, --dir NAME                   Select a different working directory
             -f, --filter PATTERN             Filter files using a regular expression
-            -r, --replace PATTERN            Rename files matched using --filter with a replacement string
-                --recursive                  Rename files in both the target directory and its subdirectories
+            -r, --replace PATTERN            Replace matched file names with a replacement string
+                --recursive                  Select files in the target directory and all its subdirectories
             -v, --version                    Display version
             -h, --help                       Print this help
       USAGE
