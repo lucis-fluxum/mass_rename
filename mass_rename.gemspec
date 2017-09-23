@@ -1,6 +1,6 @@
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'mass_rename/version'
+# frozen_string_literal: true
+
+require_relative 'lib/mass_rename/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'mass_rename'
