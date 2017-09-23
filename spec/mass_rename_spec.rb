@@ -43,4 +43,8 @@ RSpec.describe MassRename do
       end
     end
   end
+
+  describe '.rename' do
+    pending
+  end
 end
