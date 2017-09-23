@@ -35,4 +35,14 @@ module MassRename
     end
     options
   end
+
+  # Returns a list of file names matching a pattern, optionally recursive.
+  #
+  # @param options [Hash] the options returned by {MassRename#process_options}
+  # @return [Array<String>] the files matching the filter
+  def self.file_list(options)
+    Dir.glob(options[:recursive] ? '**/*' : '*').select do |path|
+      path =~ options[:filter_regex]
+    end
+  end
 end

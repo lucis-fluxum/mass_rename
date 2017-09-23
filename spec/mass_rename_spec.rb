@@ -59,6 +59,35 @@ RSpec.describe MassRename do
     end
   end
 
+  describe '.file_list' do
+    before(:all) do
+      Dir.chdir('spec/fixtures')
+    end
+
+    [true, false].each do |recursive|
+      [/example file \d\.txt/, nil].each do |filter|
+        context "recursive: #{recursive}, filter: #{filter.inspect}" do
+          let(:options) { { recursive: recursive, filter_regex: filter } }
+          let(:files) { Array.new(10) { |n| "example file #{n}.txt" } }
+          let(:nested_files) { Array.new(5) { |n| "some_dir/example file #{n}.txt" } }
+          subject { MassRename.file_list(options).sort }
+
+          if filter && recursive
+            it('returns a list of filenames (recursive)') { is_expected.to eq((nested_files + files).sort) }
+          elsif filter && !recursive
+            it('returns a list of filenames (non-recursive)') { is_expected.to eq(files) }
+          else
+            it('returns empty array') { is_expected.to eq([]) }
+          end
+        end
+      end
+    end
+
+    after(:all) do
+      Dir.chdir('../../')
+    end
+  end
+
   describe '.rename' do
     pending
   end
