@@ -1,5 +1,7 @@
 # mass_rename
-[![Build Status](https://travis-ci.org/lucis-fluxum/mass_rename.svg?branch=master)](https://travis-ci.org/lucis-fluxum/mass_rename) [![codecov](https://codecov.io/gh/lucis-fluxum/mass_rename/branch/master/graph/badge.svg)](https://codecov.io/gh/lucis-fluxum/mass_rename)
+[![Build Status](https://travis-ci.org/lucis-fluxum/mass_rename.svg?branch=master)](https://travis-ci.org/lucis-fluxum/mass_rename)
+[![codecov](https://codecov.io/gh/lucis-fluxum/mass_rename/branch/master/graph/badge.svg)](https://codecov.io/gh/lucis-fluxum/mass_rename)
+[![Gem Version](https://badge.fury.io/rb/mass_rename.svg)](https://badge.fury.io/rb/mass_rename)
 
 Filter and mass rename files in a directory or subdirectories with regular expressions.
 
@@ -8,12 +10,15 @@ Filter and mass rename files in a directory or subdirectories with regular expre
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'mass_rename', git: 'https://github.com/lucis-fluxum/mass_rename.git'
+gem 'mass_rename'
 ```
-
 And then execute:
 
     $ bundle
+
+Or install it yourself as:
+
+    $ gem install mass_rename
 
 ## Usage
 
