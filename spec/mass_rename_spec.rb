@@ -86,12 +86,12 @@ RSpec.describe MassRename do
           let(:options) { { recursive: recursive, filter: filter } }
           let(:files) { Array.new(10) { |n| "example file #{n}.txt" } }
           let(:nested_files) { Array.new(5) { |n| "some_dir/example file #{n}.txt" } }
-          subject { MassRename.file_list(options).sort }
+          subject { MassRename.file_list(options) }
 
           if filter && recursive
-            it('returns a list of filenames (recursive)') { is_expected.to eq((nested_files + files).sort) }
+            it('returns a list of filenames (recursive)') { is_expected.to match_array(nested_files + files) }
           elsif filter && !recursive
-            it('returns a list of filenames (non-recursive)') { is_expected.to eq(files) }
+            it('returns a list of filenames (non-recursive)') { is_expected.to match_array(files) }
           else
             it('returns empty array') { is_expected.to eq([]) }
           end
@@ -127,14 +127,14 @@ RSpec.describe MassRename do
     let(:options) { ['-d', 'spec/fixtures', '-f', 'example (.*) (\d)', '-r', '\1 #\2 renamed'] }
     it 'renames multiple files (non-recursive)' do
       MassRename.run(options)
-      is_expected.to eq(files)
+      is_expected.to match_array(files)
     end
 
-    subject { MassRename.file_list(recursive: true, filter: /file #\d renamed\.txt/).sort }
+    subject { MassRename.file_list(recursive: true, filter: /file #\d renamed\.txt/) }
     let(:options_recursive) { ['-d', 'spec/fixtures', '-f', 'example (.*) (\d)', '-r', '\1 #\2 renamed', '--recursive'] }
     it 'renames multiple files (recursive)' do
       MassRename.run(options_recursive)
-      is_expected.to eq((files + nested_files).sort)
+      is_expected.to match_array(nested_files + files)
     end
 
     after(:each) do
