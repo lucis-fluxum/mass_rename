@@ -80,21 +80,18 @@ RSpec.describe MassRename do
       Dir.chdir('spec/fixtures')
     end
 
-    [true, false].each do |recursive|
-      [/example file \d\.txt/, nil].each do |filter|
-        context "recursive: #{recursive}, filter: #{filter.inspect}" do
-          let(:options) { { recursive: recursive, filter: filter } }
-          let(:files) { Array.new(10) { |n| "example file #{n}.txt" } }
-          let(:nested_files) { Array.new(5) { |n| "some_dir/example file #{n}.txt" } }
-          subject { MassRename.file_list(options) }
+    [true, false].product([/example file \d\.txt/, nil]).each do |recursive, filter|
+      context "recursive: #{recursive}, filter: #{filter.inspect}" do
+        subject { MassRename.file_list(recursive: recursive, filter: filter) }
+        let(:files) { Array.new(10) { |n| "example file #{n}.txt" } }
+        let(:nested_files) { Array.new(5) { |n| "some_dir/example file #{n}.txt" } }
 
-          if filter && recursive
-            it('returns a list of filenames (recursive)') { is_expected.to match_array(nested_files + files) }
-          elsif filter && !recursive
-            it('returns a list of filenames (non-recursive)') { is_expected.to match_array(files) }
-          else
-            it('returns empty array') { is_expected.to eq([]) }
-          end
+        if !filter.nil? && recursive
+          it('returns a list of filenames (recursive)') { is_expected.to match_array(nested_files + files) }
+        elsif !filter.nil? && !recursive
+          it('returns a list of filenames (non-recursive)') { is_expected.to match_array(files) }
+        else
+          it('returns empty array') { is_expected.to be_empty }
         end
       end
     end
