@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'lib/mass_rename/version'
+require File.expand_path("../lib/mass_rename/version", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = 'mass_rename'

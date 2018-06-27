@@ -9,14 +9,14 @@ RSpec.describe MassRename do
 
   describe '.process_options' do
     let(:usage) do
-      <<~USAGE
-        Usage: mass_rename [options]
-            -d, --dir NAME                   Select a different working directory
-            -f, --filter PATTERN             Filter files using a regular expression
-            -r, --replace PATTERN            Replace matched file names with a replacement string
-                --recursive                  Select files in the target directory and all its subdirectories
-            -v, --version                    Display version
-            -h, --help                       Print this help
+      <<-USAGE
+Usage: mass_rename [options]
+    -d, --dir NAME                   Select a different working directory
+    -f, --filter PATTERN             Filter files using a regular expression
+    -r, --replace PATTERN            Replace matched file names with a replacement string
+        --recursive                  Select files in the target directory and all its subdirectories
+    -v, --version                    Display version
+    -h, --help                       Print this help
       USAGE
     end
 
