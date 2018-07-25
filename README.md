@@ -30,11 +30,14 @@ Or install it yourself as:
         -v, --version                    Display version
         -h, --help                       Print this help
 
-The following example will recursively rename files matching the pattern "some_file_pattern_(\d)", capture the digit character,
-and rename all matching files with the replacement "\1_new_name", substituting the captured digit for "\1".
-```
-mass_rename --recursive -d target_dir -f "some_file_pattern_(\d)" -r "\1_new_name"
-```
+This tool is essentially a multi-string gsub, so treat the filter and replacement patterns the same as you would when
+using gsub -- capture groups and back references are very helpful!
+
+The following example will recursively rename files matching the pattern "some_file_pattern_(\d)", capture the digit 
+character, and rename all matching files with the replacement "\1_new_name", using a back reference for the captured 
+digit.
+
+    mass_rename --recursive -d target_dir -f "some_file_pattern_(\d)" -r "\1_new_name"
 
 ## Development
 
