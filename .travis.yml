@@ -1,18 +1,11 @@
+---
 language: ruby
 cache: bundler
-
 rvm:
-  - 1.9
-  - 2.0
-  - 2.1
-  - 2.2
-  - 2.3
-  - 2.4
-  - 2.5
+    - 2.3
+    - 2.4
+    - 2.5
+    - 2.6
+    - 2.7
 
-notifications:
-  email:
-    recipients:
-      - secure: "BIcuEkLfJjpVKlkmjvUR21zrS+7Q1aYsurjZmIHauR0PDl0K7XmoNQtz09b4Ee+1hVzLV3gScDmUYpeVTWE7erBBZVYnNcSV2zIV4sVtAiCx2Aoi9xpGOVb+vop4o89+2RLzy2Wp9dFfcE1C5/IVytvFdS7x4ERFS7SgjzT7M2kS0L2mpGQg7ykky97HdjyjFuEGHfcN2B9gm+U5EQDFRfAeNkHeC4R3jygwsMGq1nhUeiAgzqaHRx+jcwe0NLgoEuw/fN3GJ5VosvxjqIx70sjJQayN8NvRmmaMLVWa1TZxBSV548O9CVlsxJNvERNneDhex83OYBPL/YfPxUkVGiufGI8TWnkQZJSOylnZN3F2BL2wURLyOIK1w/DYlWykLCcJpVKHBt6pw0VZ8Y1ZPgjDmlJxS5NRRyuRNcgTYhZt1ShRr9QlzMcZzTE4vJfHJ5dmIMWGHPSOyy1434vlYvAPK7yXGOquSIYqDPCsZ0Eu15ShwSp728eJraBBGY1GDYPlXeluescq3PmSpuTZCdAxXKdmHT4BsEi4Jrax64DBpfiBXMHLWeid+6sxOHxN6A3Ehdhy2Tt8gdJJDex6Bx9qVAPx91Scm3knw+4zpeOjAZPcQdPl+CN/zX0wQWuDbrBCpEsZYU6rToJH9xtQ8bI3OvI8AYWYGrrpDN/Txzs="
-    on_success: never
-    on_failure: always
+before_install: gem install bundler -v 2.1.4

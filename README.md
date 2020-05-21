@@ -1,5 +1,5 @@
 # mass_rename
-[![Build Status](https://travis-ci.org/lucis-fluxum/mass_rename.svg?branch=master)](https://travis-ci.org/lucis-fluxum/mass_rename)
+[![Build Status](https://travis-ci.com/lucis-fluxum/mass_rename.svg?branch=master)](https://travis-ci.com/lucis-fluxum/mass_rename)
 [![codecov](https://codecov.io/gh/lucis-fluxum/mass_rename/branch/master/graph/badge.svg)](https://codecov.io/gh/lucis-fluxum/mass_rename)
 [![Gem Version](https://badge.fury.io/rb/mass_rename.svg)](https://badge.fury.io/rb/mass_rename)
 
@@ -53,3 +53,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/lucis-
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
